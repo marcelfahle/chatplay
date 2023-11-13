@@ -25,19 +25,21 @@ export default function App() {
   };
 
   const handleSendMessage = () => {
-    const optimisticMessage: Message = {
-      userId: ourUserId,
-      text: newMessage,
-      timestamp: new Date().toISOString()
-    };
+    if (newMessage.trim().length > 0) {
+      const optimisticMessage: Message = {
+        userId: ourUserId,
+        text: newMessage,
+        timestamp: new Date().toISOString()
+      };
 
-    // optimistic ui
-    setMessages(prevMessages => [...prevMessages, optimisticMessage]);
-    setNewMessage('');
+      // optimistic ui
+      setMessages(prevMessages => [...prevMessages, optimisticMessage]);
+      setNewMessage('');
 
-    api.sendMessage(newMessage).then(() => {
-      fetchMessages();
-    });
+      api.sendMessage(newMessage.trim()).then(() => {
+        fetchMessages();
+      });
+    }
   };
 
   return (
